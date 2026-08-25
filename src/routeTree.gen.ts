@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as CartRouteImport } from './routes/cart'
+import { Route as FinancingRouteImport } from './routes/financing'
 import { Route as CheckoutIndexRouteImport } from './routes/checkout.index'
 import { Route as CheckoutSuccessRouteImport } from './routes/checkout.success'
 import { Route as ShopIndexRouteImport } from './routes/shop.index'
@@ -31,6 +32,11 @@ const AboutRoute = AboutRouteImport.update({
 const CartRoute = CartRouteImport.update({
   id: '/cart',
   path: '/cart',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FinancingRoute = FinancingRouteImport.update({
+  id: '/financing',
+  path: '/financing',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CheckoutIndexRoute = CheckoutIndexRouteImport.update({
@@ -64,6 +70,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/cart': typeof CartRoute
+  '/financing': typeof FinancingRoute
   '/checkout/success': typeof CheckoutSuccessRoute
   '/shop/$slug': typeof ShopSlugRoute
   '/checkout/': typeof CheckoutIndexRoute
@@ -74,6 +81,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/cart': typeof CartRoute
+  '/financing': typeof FinancingRoute
   '/checkout/success': typeof CheckoutSuccessRoute
   '/shop/$slug': typeof ShopSlugRoute
   '/checkout': typeof CheckoutIndexRoute
@@ -85,6 +93,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/cart': typeof CartRoute
+  '/financing': typeof FinancingRoute
   '/checkout/success': typeof CheckoutSuccessRoute
   '/shop/$slug': typeof ShopSlugRoute
   '/checkout/': typeof CheckoutIndexRoute
@@ -97,6 +106,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/cart'
+    | '/financing'
     | '/checkout/success'
     | '/shop/$slug'
     | '/checkout/'
@@ -107,6 +117,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/cart'
+    | '/financing'
     | '/checkout/success'
     | '/shop/$slug'
     | '/checkout'
@@ -117,6 +128,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/cart'
+    | '/financing'
     | '/checkout/success'
     | '/shop/$slug'
     | '/checkout/'
@@ -128,6 +140,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   CartRoute: typeof CartRoute
+  FinancingRoute: typeof FinancingRoute
   CheckoutSuccessRoute: typeof CheckoutSuccessRoute
   ShopSlugRoute: typeof ShopSlugRoute
   CheckoutIndexRoute: typeof CheckoutIndexRoute
@@ -156,6 +169,13 @@ declare module '@tanstack/react-router' {
       path: '/cart'
       fullPath: '/cart'
       preLoaderRoute: typeof CartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/financing': {
+      id: '/financing'
+      path: '/financing'
+      fullPath: '/financing'
+      preLoaderRoute: typeof FinancingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/checkout/': {
@@ -200,6 +220,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   CartRoute: CartRoute,
+  FinancingRoute: FinancingRoute,
   CheckoutSuccessRoute: CheckoutSuccessRoute,
   ShopSlugRoute: ShopSlugRoute,
   CheckoutIndexRoute: CheckoutIndexRoute,
