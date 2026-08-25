@@ -1,0 +1,24 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "apex-powersports-forge",
+  "main": ".output/server/index.mjs",
+  "compatibility_date": "2025-09-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": ".output/public",
+    "binding": "ASSETS"
+  },
+  "observability": {
+    "enabled": true
+  },
+  // Public (publishable) values only. Secrets such as SUPABASE_SERVICE_ROLE_KEY
+  // must be added with: wrangler secret put SUPABASE_SERVICE_ROLE_KEY
+  "vars": {
+    "SUPABASE_PROJECT_ID":"drkceyolgwokwljfawbo"
+"SUPABASE_PUBLISHABLE_KEY":"sb_publishable_VfsyO4Dr-xsosewAhLxyMA_-VnEvjNH"
+"SUPABASE_URL":"https://drkceyolgwokwljfawbo.supabase.co"
+"VITE_SUPABASE_PROJECT_ID":"drkceyolgwokwljfawbo"
+"VITE_SUPABASE_PUBLISHABLE_KEY":"sb_publishable_VfsyO4Dr-xsosewAhLxyMA_-VnEvjNH"
+"VITE_SUPABASE_URL":"https://drkceyolgwokwljfawbo.supabase.co"
+  }
+}
