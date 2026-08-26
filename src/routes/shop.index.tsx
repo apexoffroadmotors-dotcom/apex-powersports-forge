@@ -9,7 +9,7 @@ import { listProducts } from "@/lib/catalog.functions";
 import { JsonLd, seo } from "@/lib/seo";
 import { CONDITION_LABELS, SITE, TYPE_LABELS } from "@/lib/site";
 
-type ShopSearch = { q?: string; type?: string; condition?: string; sort?: string };
+type ShopSearch = { q: string; type: string; condition: string; sort: string };
 
 const productsQuery = queryOptions({
   queryKey: ["products"],
@@ -18,11 +18,10 @@ const productsQuery = queryOptions({
 
 export const Route = createFileRoute("/shop/")({
   validateSearch: (search: Record<string, unknown>): ShopSearch => ({
-    q: typeof search.q === "string" && search.q ? search.q.slice(0, 80) : undefined,
-    type: typeof search.type === "string" && search.type ? search.type : undefined,
-    condition:
-      typeof search.condition === "string" && search.condition ? search.condition : undefined,
-    sort: typeof search.sort === "string" && search.sort ? search.sort : undefined,
+    q: typeof search["q"] === "string" ? search["q"].slice(0, 80) : "",
+    type: typeof search["type"] === "string" ? search["type"] : "",
+    condition: typeof search["condition"] === "string" ? search["condition"] : "",
+    sort: typeof search["sort"] === "string" ? search["sort"] : "",
   }),
   head: () =>
     seo({
@@ -38,10 +37,11 @@ export const Route = createFileRoute("/shop/")({
 function Shop() {
   const { data } = useSuspenseQuery(productsQuery);
   const search = Route.useSearch();
-  const navigate = useNavigate({ from: "/shop" });
+  const navigate = useNavigate({ from: "/shop/" });
 
   const setSearch = (patch: Partial<ShopSearch>) =>
-    navigate({ search: (prev: ShopSearch) => ({ ...prev, ...patch }) });
+    navigate({ search: (prev) => ({ ...prev, ...patch }) });
+
 
   const filtered = useMemo(() => {
     let list = data.products;
@@ -95,7 +95,7 @@ function Shop() {
             <span className="sr-only">Search inventory</span>
             <input
               value={search.q ?? ""}
-              onChange={(e) => setSearch({ q: e.target.value || undefined })}
+              onChange={(e) => setSearch({ q: e.target.value })}
               placeholder="Search brand, model or keyword"
               maxLength={80}
               className="w-full bg-transparent text-sm outline-none"
@@ -103,7 +103,7 @@ function Shop() {
           </label>
           <select
             value={search.type ?? ""}
-            onChange={(e) => setSearch({ type: e.target.value || undefined })}
+            onChange={(e) => setSearch({ type: e.target.value })}
             className="border-2 border-ink bg-card px-3 py-2.5 text-sm"
             aria-label="Filter by type"
           >
@@ -116,7 +116,7 @@ function Shop() {
           </select>
           <select
             value={search.condition ?? ""}
-            onChange={(e) => setSearch({ condition: e.target.value || undefined })}
+            onChange={(e) => setSearch({ condition: e.target.value })}
             className="border-2 border-ink bg-card px-3 py-2.5 text-sm"
             aria-label="Filter by condition"
           >
@@ -129,7 +129,7 @@ function Shop() {
           </select>
           <select
             value={search.sort ?? ""}
-            onChange={(e) => setSearch({ sort: e.target.value || undefined })}
+            onChange={(e) => setSearch({ sort: e.target.value })}
             className="border-2 border-ink bg-card px-3 py-2.5 text-sm"
             aria-label="Sort inventory"
           >
