@@ -6,7 +6,7 @@ import { Lock, Mail } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { SITE } from "@/lib/site";
 
-export const Route = createFileRoute("/admin/auth")({
+export const Route = createFileRoute("/admin_/auth")({
   head: () => ({
     meta: [
       { title: `Admin sign in | ${SITE.name}` },
@@ -23,7 +23,6 @@ const schema = z.object({
 
 function AdminAuthPage() {
   const navigate = useNavigate();
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -52,22 +51,10 @@ function AdminAuthPage() {
     setErrors({});
     setBusy(true);
     try {
-      if (mode === "signin") {
-        const { error } = await supabase.auth.signInWithPassword(parsed.data);
-        if (error) {
-          toast.error(error.message);
-          return;
-        }
-      } else {
-        const { error } = await supabase.auth.signUp({
-          email: parsed.data.email,
-          password: parsed.data.password,
-        });
-        if (error) {
-          toast.error(error.message);
-          return;
-        }
-        toast.success("Account created.");
+      const { error } = await supabase.auth.signInWithPassword(parsed.data);
+      if (error) {
+        toast.error(error.message);
+        return;
       }
       navigate({ to: "/admin" });
     } finally {
@@ -90,30 +77,14 @@ function AdminAuthPage() {
         </Link>
 
         <div className="mt-8 border-2 border-primary-foreground/30 bg-primary p-6 sm:p-8">
-          <div className="mb-6 flex border-2 border-primary-foreground/30">
-            <button
-              type="button"
-              onClick={() => setMode("signin")}
-              className={`micro-label flex-1 py-2.5 transition-colors ${
-                mode === "signin" ? "bg-accent text-accent-foreground" : "text-primary-foreground/70"
-              }`}
-            >
-              Sign in
-            </button>
-            <button
-              type="button"
-              onClick={() => setMode("signup")}
-              className={`micro-label flex-1 py-2.5 transition-colors ${
-                mode === "signup" ? "bg-accent text-accent-foreground" : "text-primary-foreground/70"
-              }`}
-            >
-              Create account
-            </button>
-          </div>
+          <p className="micro-label mb-6 text-center text-primary-foreground/70">Admin sign in</p>
 
           <form onSubmit={onSubmit} className="space-y-4">
             <div>
-              <label htmlFor="au-email" className="micro-label mb-1 flex items-center gap-2 text-primary-foreground/70">
+              <label
+                htmlFor="au-email"
+                className="micro-label mb-1 flex items-center gap-2 text-primary-foreground/70"
+              >
                 <Mail size={14} /> Email
               </label>
               <input
@@ -127,13 +98,16 @@ function AdminAuthPage() {
               {errors.email && <p className="mt-1 text-xs text-accent">{errors.email}</p>}
             </div>
             <div>
-              <label htmlFor="au-password" className="micro-label mb-1 flex items-center gap-2 text-primary-foreground/70">
+              <label
+                htmlFor="au-password"
+                className="micro-label mb-1 flex items-center gap-2 text-primary-foreground/70"
+              >
                 <Lock size={14} /> Password
               </label>
               <input
                 id="au-password"
                 type="password"
-                autoComplete={mode === "signin" ? "current-password" : "new-password"}
+                autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full border-2 border-primary-foreground/30 bg-primary px-3 py-2.5 text-sm text-primary-foreground outline-none focus:ring-2 focus:ring-accent"
@@ -146,13 +120,16 @@ function AdminAuthPage() {
               disabled={busy}
               className="micro-label w-full border-2 border-primary-foreground bg-accent px-5 py-3 text-accent-foreground transition-colors hover:bg-primary-foreground disabled:opacity-60"
             >
-              {busy ? "…" : mode === "signin" ? "Sign in" : "Create account"}
+              {busy ? "…" : "Sign in"}
             </button>
           </form>
         </div>
 
         <p className="mt-6 text-center text-xs text-primary-foreground/60">
-          Staff access only. <Link to="/" className="underline hover:text-accent">Back to storefront</Link>
+          Staff access only.{" "}
+          <Link to="/" className="underline hover:text-accent">
+            Back to storefront
+          </Link>
         </p>
       </div>
     </div>
