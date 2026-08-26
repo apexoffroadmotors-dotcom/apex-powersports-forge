@@ -95,7 +95,7 @@ function Shop() {
             <span className="sr-only">Search inventory</span>
             <input
               value={search.q ?? ""}
-              onChange={(e) => setSearch({ q: e.target.value || undefined })}
+              onChange={(e) => setSearch({ q: e.target.value })}
               placeholder="Search brand, model or keyword"
               maxLength={80}
               className="w-full bg-transparent text-sm outline-none"
@@ -103,7 +103,7 @@ function Shop() {
           </label>
           <select
             value={search.type ?? ""}
-            onChange={(e) => setSearch({ type: e.target.value || undefined })}
+            onChange={(e) => setSearch({ type: e.target.value })}
             className="border-2 border-ink bg-card px-3 py-2.5 text-sm"
             aria-label="Filter by type"
           >
@@ -116,7 +116,7 @@ function Shop() {
           </select>
           <select
             value={search.condition ?? ""}
-            onChange={(e) => setSearch({ condition: e.target.value || undefined })}
+            onChange={(e) => setSearch({ condition: e.target.value })}
             className="border-2 border-ink bg-card px-3 py-2.5 text-sm"
             aria-label="Filter by condition"
           >
@@ -129,7 +129,7 @@ function Shop() {
           </select>
           <select
             value={search.sort ?? ""}
-            onChange={(e) => setSearch({ sort: e.target.value || undefined })}
+            onChange={(e) => setSearch({ sort: e.target.value })}
             className="border-2 border-ink bg-card px-3 py-2.5 text-sm"
             aria-label="Sort inventory"
           >
