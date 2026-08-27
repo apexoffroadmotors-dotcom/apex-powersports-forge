@@ -9,10 +9,10 @@ import { JsonLd, seo } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 
 export const Route = createFileRoute("/blog/")({
-  validateSearch: (search: Record<string, unknown>): { category?: string } => ({
-    category:
-      typeof search.category === "string" && search.category ? search.category : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): { category?: string } =>
+    typeof search["category"] === "string" && search["category"]
+      ? { category: search["category"] }
+      : {},
   head: () =>
     seo({
       title: "The Journal | ATV Buying Guides, Maintenance & Riding Tips",
@@ -31,6 +31,7 @@ function BlogIndex() {
     [],
   );
   const [featured, ...rest] = blogPosts;
+  if (!featured) return null;
   const filtered = search.category
     ? blogPosts.filter((p) => p.category === search.category)
     : rest;

@@ -9,7 +9,9 @@ import { listProducts } from "@/lib/catalog.functions";
 import { JsonLd, seo } from "@/lib/seo";
 import { CONDITION_LABELS, SITE, TYPE_LABELS } from "@/lib/site";
 
-type ShopSearch = { q: string; type: string; condition: string; sort: string };
+type ShopSearch = { q?: string; type?: string; condition?: string; sort?: string };
+
+const str = (v: unknown) => (typeof v === "string" && v ? v : undefined);
 
 const productsQuery = queryOptions({
   queryKey: ["products"],
@@ -17,12 +19,18 @@ const productsQuery = queryOptions({
 });
 
 export const Route = createFileRoute("/shop/")({
-  validateSearch: (search: Record<string, unknown>): ShopSearch => ({
-    q: typeof search["q"] === "string" ? search["q"].slice(0, 80) : "",
-    type: typeof search["type"] === "string" ? search["type"] : "",
-    condition: typeof search["condition"] === "string" ? search["condition"] : "",
-    sort: typeof search["sort"] === "string" ? search["sort"] : "",
-  }),
+  validateSearch: (search: Record<string, unknown>): ShopSearch => {
+    const out: ShopSearch = {};
+    const q = str(search["q"]);
+    if (q) out.q = q.slice(0, 80);
+    const type = str(search["type"]);
+    if (type) out.type = type;
+    const condition = str(search["condition"]);
+    if (condition) out.condition = condition;
+    const sort = str(search["sort"]);
+    if (sort) out.sort = sort;
+    return out;
+  },
   head: () =>
     seo({
       title: "ATVs & Side-by-Sides for Sale | Apex Offroad Motors Inventory",

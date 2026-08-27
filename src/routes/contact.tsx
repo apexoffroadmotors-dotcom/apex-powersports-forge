@@ -182,7 +182,7 @@ function ContactPage() {
                     required
                     className="w-full border-2 border-ink bg-background px-3 py-2.5 text-sm text-foreground outline-none focus:ring-2 focus:ring-accent"
                   />
-                  {errors.name && <p className="mt-1 text-xs text-destructive">{errors.name}</p>}
+                  {errors["name"] && <p className="mt-1 text-xs text-destructive">{errors["name"]}</p>}
                 </div>
                 <div>
                   <label htmlFor="ct-email" className="micro-label mb-1 block text-muted-foreground">
@@ -195,7 +195,7 @@ function ContactPage() {
                     required
                     className="w-full border-2 border-ink bg-background px-3 py-2.5 text-sm text-foreground outline-none focus:ring-2 focus:ring-accent"
                   />
-                  {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email}</p>}
+                  {errors["email"] && <p className="mt-1 text-xs text-destructive">{errors["email"]}</p>}
                 </div>
               </div>
 
@@ -241,7 +241,7 @@ function ContactPage() {
                   required
                   className="w-full border-2 border-ink bg-background px-3 py-2.5 text-sm text-foreground outline-none focus:ring-2 focus:ring-accent"
                 />
-                {errors.message && <p className="mt-1 text-xs text-destructive">{errors.message}</p>}
+                {errors["message"] && <p className="mt-1 text-xs text-destructive">{errors["message"]}</p>}
               </div>
 
               <button
