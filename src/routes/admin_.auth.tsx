@@ -68,9 +68,7 @@ function AdminAuthPage() {
     <div className="flex min-h-screen items-center justify-center bg-primary px-4 py-12 text-primary-foreground">
       <div className="w-full max-w-sm">
         <Link to="/" className="mx-auto flex w-fit items-center gap-2">
-          <span className="grid h-9 w-9 place-items-center border-2 border-primary-foreground bg-accent font-display text-sm text-accent-foreground">
-            A
-          </span>
+          <img src="/favicon.png" alt={SITE.name} className="h-10 w-10 object-contain" />
           <span className="font-display text-lg leading-none tracking-tight">
             APEX<span className="text-accent"> OFFROAD</span>
           </span>

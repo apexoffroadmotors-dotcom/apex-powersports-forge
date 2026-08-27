@@ -146,9 +146,7 @@ function SidebarBrand() {
       to="/admin"
       className="flex items-center gap-2 border-b-2 border-primary-foreground/20 px-5 py-5"
     >
-      <span className="grid h-8 w-8 place-items-center border-2 border-primary-foreground bg-accent font-display text-xs text-accent-foreground">
-        A
-      </span>
+      <img src="/favicon.png" alt={SITE.name} className="h-8 w-8 object-contain" />
       <span className="font-display text-sm leading-none tracking-tight">{SITE.name}</span>
     </Link>
   );

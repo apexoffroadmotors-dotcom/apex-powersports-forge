@@ -21,9 +21,7 @@ export function Navbar() {
     <header className="sticky top-0 z-50 border-b-2 border-ink bg-background">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
         <Link to="/" className="flex items-center gap-2" onClick={() => setOpen(false)}>
-          <span className="grid h-9 w-9 place-items-center border-2 border-ink bg-primary font-display text-sm text-primary-foreground">
-            A
-          </span>
+          <img src="/favicon.png" alt={SITE.name} className="h-10 w-10 object-contain" />
           <span className="font-display text-lg leading-none tracking-tight text-foreground">
             APEX<span className="text-primary"> OFFROAD</span>
           </span>

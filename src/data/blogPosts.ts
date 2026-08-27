@@ -10,14 +10,22 @@ export type BlogPost = {
   body: string[];
 };
 
-const IMG_TRAIL =
-  "https://images.unsplash.com/photo-1558980664-10ea1b1a2b25?auto=format&fit=crop&w=1600&q=80";
 const IMG_DUNE =
   "https://images.unsplash.com/photo-1591462391343-b58bd7e7e6d1?auto=format&fit=crop&w=1600&q=80";
 const IMG_GARAGE =
   "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=1600&q=80";
 const IMG_FOREST =
   "https://images.unsplash.com/photo-1533106418989-88406c7cc8ca?auto=format&fit=crop&w=1600&q=80";
+const IMG_INSPECTION =
+  "https://images.unsplash.com/photo-1653859465778-58b3e964cadc?auto=format&fit=crop&w=1600&q=80";
+const IMG_FINANCING =
+  "https://images.unsplash.com/photo-1664463760781-f159dfe3af30?auto=format&fit=crop&w=1600&q=80";
+const IMG_GEAR =
+  "https://images.unsplash.com/photo-1575396565848-e8031f12ce2a?auto=format&fit=crop&w=1600&q=80";
+const IMG_WINTER =
+  "https://images.unsplash.com/photo-1670924758351-a372e77f6e72?auto=format&fit=crop&w=1600&q=80";
+const IMG_SIDE_BY_SIDE =
+  "https://images.unsplash.com/photo-1762152795969-015224062721?auto=format&fit=crop&w=1600&q=80";
 
 export const blogPosts: BlogPost[] = [
   {
@@ -75,7 +83,7 @@ export const blogPosts: BlogPost[] = [
     date: "2026-06-09",
     readMinutes: 8,
     author: "Apex Offroad Motors",
-    image: IMG_TRAIL,
+    image: IMG_INSPECTION,
     body: [
       "Used ATVs are one of the best values in powersports, because depreciation is steep and mechanical life is long. They are also easy to disguise. A pressure washer, a can of tire shine and an hour of work can hide two thousand dollars of problems. Here is the routine we use on every machine before it enters our inventory.",
       "Begin cold. Insist that the engine has not been started that day. A cold start reveals hard starting, smoke color, valve noise and charging problems that vanish once everything is warm. If the seller has already warmed it up before you arrive, treat that as information and plan a second visit.",
@@ -98,7 +106,7 @@ export const blogPosts: BlogPost[] = [
     date: "2026-05-22",
     readMinutes: 7,
     author: "Apex Offroad Motors",
-    image: IMG_FOREST,
+    image: IMG_FINANCING,
     body: [
       "Powersports financing is its own category. It is not an auto loan and it is not a personal loan, and understanding the difference will save you both money and frustration when you apply.",
       "Lenders in this space treat ATVs and side-by-sides as recreational collateral. That means terms are typically shorter than a car loan — often thirty-six to seventy-two months — and rates sit a few points higher for the same credit profile, because the resale market is smaller and repossession is harder. On the other hand, approval is often faster and the paperwork is lighter.",
@@ -121,7 +129,7 @@ export const blogPosts: BlogPost[] = [
     date: "2026-05-03",
     readMinutes: 7,
     author: "Apex Offroad Motors",
-    image: IMG_DUNE,
+    image: IMG_GEAR,
     body: [
       "Every rider has a budget, and gear competes with fuel, tires and the machine itself. So instead of telling you to buy everything, here is the honest order of priority based on injury data and years of watching what actually happens on trails.",
       "The helmet is not negotiable and it is not the place to save money. Buy a certified helmet that fits correctly, which means it should be snug enough that the cheek pads compress and the skin on your forehead moves when you rotate the helmet with your hands. An expensive helmet that fits badly protects worse than a mid-priced one that fits well. Replace any helmet after a significant impact, even if it looks fine — the energy-absorbing liner is single-use by design.",
@@ -167,7 +175,7 @@ export const blogPosts: BlogPost[] = [
     date: "2026-03-29",
     readMinutes: 7,
     author: "Apex Offroad Motors",
-    image: IMG_GARAGE,
+    image: IMG_WINTER,
     body: [
       "Most spring repair bills are winter's fault. Machines rarely break while sitting still, but they corrode, gum up and get chewed on. A proper storage routine takes about two hours and prevents nearly all of it.",
       "Start with a wash and a full dry. Mud holds moisture against metal and traps salt and fertilizer that accelerate corrosion. Clean the underside and radiator fins as thoroughly as the bodywork, then let the machine dry completely in open air before it goes into storage. Follow with a light spray of corrosion inhibitor on exposed fasteners and unpainted metal, avoiding brake rotors and pads.",
@@ -190,7 +198,7 @@ export const blogPosts: BlogPost[] = [
     date: "2026-03-06",
     readMinutes: 8,
     author: "Apex Offroad Motors",
-    image: IMG_TRAIL,
+    image: IMG_SIDE_BY_SIDE,
     body: [
       "The moment riding becomes a family activity, the calculus changes. Solo riders optimize for feel; families optimize for everyone arriving back happy. That usually points toward a side-by-side, but not always, and the exceptions matter.",
       "Start with the safety architecture, because it is the biggest single difference. A side-by-side has a roll cage, three-point or four-point harnesses, and seats designed to keep occupants inside the cage during a rollover. An ATV relies entirely on rider skill and protective gear. For passengers who are not riders themselves — young children, older parents, nervous partners — that structural difference is decisive.",
