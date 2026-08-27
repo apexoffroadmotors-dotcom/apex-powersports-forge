@@ -95,7 +95,7 @@ function AdminAuthPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full border-2 border-primary-foreground/30 bg-primary px-3 py-2.5 text-sm text-primary-foreground outline-none focus:ring-2 focus:ring-accent"
               />
-              {errors.email && <p className="mt-1 text-xs text-accent">{errors.email}</p>}
+              {errors["email"] && <p className="mt-1 text-xs text-accent">{errors["email"]}</p>}
             </div>
             <div>
               <label
@@ -112,7 +112,7 @@ function AdminAuthPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full border-2 border-primary-foreground/30 bg-primary px-3 py-2.5 text-sm text-primary-foreground outline-none focus:ring-2 focus:ring-accent"
               />
-              {errors.password && <p className="mt-1 text-xs text-accent">{errors.password}</p>}
+              {errors["password"] && <p className="mt-1 text-xs text-accent">{errors["password"]}</p>}
             </div>
 
             <button

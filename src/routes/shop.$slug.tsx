@@ -36,7 +36,7 @@ export const Route = createFileRoute("/shop/$slug")({
       description: (p.description ?? "").slice(0, 155) || `${p.name} available now at Apex Offroad Motors.`,
       path: `/shop/${params.slug}`,
       type: "product",
-      image: p.images?.[0]?.startsWith("http") ? p.images[0] : undefined,
+      ...(p.images?.[0]?.startsWith("http") ? { image: p.images[0] } : {}),
     });
   },
   notFoundComponent: () => (
@@ -68,7 +68,12 @@ function ProductDetail() {
     data.reviews.length > 0
       ? data.reviews.reduce((s, r) => s + r.rating, 0) / data.reviews.length
       : null;
-  const soldOut = product.status !== "available";
+  const soldOut = product.listing_status !== "available";
+
+  const features: string[] =
+    product.specs && typeof product.specs === "object" && !Array.isArray(product.specs)
+      ? Object.entries(product.specs as Record<string, unknown>).map(([k, v]) => `${k}: ${String(v)}`)
+      : [];
 
   const specs: Array<[string, string]> = [
     ["Type", TYPE_LABELS[product.type] ?? product.type],
@@ -76,10 +81,10 @@ function ProductDetail() {
     ["Brand", product.brand ?? "—"],
     ["Model", product.model ?? "—"],
     ["Year", product.year ? String(product.year) : "—"],
-    ["Engine", product.engine_cc ? `${product.engine_cc} cc` : "—"],
-    ["Hours", product.hours != null ? String(product.hours) : "—"],
+    ["Engine", product.engine_size ?? "—"],
+    ["Transmission", product.transmission ?? "—"],
     ["Mileage", product.mileage != null ? `${product.mileage} mi` : "—"],
-    ["Availability", STATUS_LABELS[product.status] ?? product.status],
+    ["Availability", STATUS_LABELS[product.listing_status] ?? product.listing_status],
   ];
 
   return (
@@ -165,7 +170,7 @@ function ProductDetail() {
             </span>
             {soldOut && (
               <span className="micro-label border-2 border-ink bg-destructive px-2 py-1 text-destructive-foreground">
-                {STATUS_LABELS[product.status]}
+                {STATUS_LABELS[product.listing_status]}
               </span>
             )}
           </div>
@@ -226,9 +231,9 @@ function ProductDetail() {
             ))}
           </dl>
 
-          {(product.features ?? []).length > 0 && (
+          {features.length > 0 && (
             <ul className="mt-6 grid gap-2 sm:grid-cols-2">
-              {(product.features ?? []).map((f) => (
+              {features.map((f) => (
                 <li key={f} className="flex items-start gap-2 text-sm text-foreground">
                   <Check size={16} className="mt-0.5 shrink-0 text-primary" /> {f}
                 </li>
