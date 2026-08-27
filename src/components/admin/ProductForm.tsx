@@ -3,6 +3,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { z } from "zod";
 import { ImagePlus, Loader2, Trash2 } from "lucide-react";
+import type { Json } from "@/integrations/supabase/types";
 import { supabase } from "@/integrations/supabase/client";
 import { productImageUrl, PLACEHOLDER_IMAGE } from "@/lib/images";
 import { CONDITION_LABELS, STATUS_LABELS, TYPE_LABELS } from "@/lib/site";
@@ -137,7 +138,7 @@ export function ProductForm({ product }: { product?: Product }) {
         color: form.color,
         is_available: form.is_available,
         is_featured: form.is_featured,
-        specs,
+        specs: specs as Json,
         images,
       };
       const { error } = product
