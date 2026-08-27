@@ -14,11 +14,11 @@
   // Public (publishable) values only. Secrets such as SUPABASE_SERVICE_ROLE_KEY
   // must be added with: wrangler secret put SUPABASE_SERVICE_ROLE_KEY
   "vars": {
-    "SUPABASE_PROJECT_ID":"drkceyolgwokwljfawbo"
-"SUPABASE_PUBLISHABLE_KEY":"sb_publishable_VfsyO4Dr-xsosewAhLxyMA_-VnEvjNH"
-"SUPABASE_URL":"https://drkceyolgwokwljfawbo.supabase.co"
-"VITE_SUPABASE_PROJECT_ID":"drkceyolgwokwljfawbo"
-"VITE_SUPABASE_PUBLISHABLE_KEY":"sb_publishable_VfsyO4Dr-xsosewAhLxyMA_-VnEvjNH"
-"VITE_SUPABASE_URL":"https://drkceyolgwokwljfawbo.supabase.co"
+    "SUPABASE_PROJECT_ID": "drkceyolgwokwljfawbo",
+    "SUPABASE_PUBLISHABLE_KEY": "sb_publishable_VfsyO4Dr-xsosewAhLxyMA_-VnEvjNH",
+    "SUPABASE_URL": "https://drkceyolgwokwljfawbo.supabase.co",
+    "VITE_SUPABASE_PROJECT_ID": "drkceyolgwokwljfawbo",
+    "VITE_SUPABASE_PUBLISHABLE_KEY": "sb_publishable_VfsyO4Dr-xsosewAhLxyMA_-VnEvjNH",
+    "VITE_SUPABASE_URL": "https://drkceyolgwokwljfawbo.supabase.co"
   }
 }
