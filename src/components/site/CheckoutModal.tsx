@@ -13,7 +13,7 @@ const schema = z.object({
   email: z.string().trim().email("Enter a valid email").max(255),
   phone: z.string().trim().min(6, "Enter a phone number").max(40),
   address: z.string().trim().min(5, "Enter a delivery address").max(300),
-  notes: z.string().trim().max(1000).optional().default(""),
+  notes: z.string().trim().min(5, "Tell us a little about what you need").max(1000),
 });
 
 export function CheckoutModal({
@@ -53,7 +53,6 @@ export function CheckoutModal({
       const res = await submitOrder({
         data: {
           ...parsed.data,
-          notes: parsed.data.notes ?? "",
           items: items.map((i) => ({
             id: i.id,
             slug: i.slug,
@@ -175,14 +174,17 @@ export function CheckoutModal({
 
             <div>
               <label htmlFor="co-notes" className="micro-label mb-1 block text-muted-foreground">
-                Notes (optional)
+                Your message
               </label>
               <textarea
                 id="co-notes"
                 name="notes"
                 rows={3}
+                required
+                placeholder="Anything we should know — trade-in, delivery timing, financing questions…"
                 className="w-full border-2 border-ink bg-background px-3 py-2.5 text-sm text-foreground outline-none focus:ring-2 focus:ring-accent"
               />
+              {errors.notes && <p className="mt-1 text-xs text-destructive">{errors.notes}</p>}
             </div>
 
             <button
