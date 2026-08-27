@@ -184,7 +184,9 @@ export function CheckoutModal({
                 placeholder="Anything we should know — trade-in, delivery timing, financing questions…"
                 className="w-full border-2 border-ink bg-background px-3 py-2.5 text-sm text-foreground outline-none focus:ring-2 focus:ring-accent"
               />
-              {errors.notes && <p className="mt-1 text-xs text-destructive">{errors.notes}</p>}
+              {errors["notes"] && (
+                <p className="mt-1 text-xs text-destructive">{errors["notes"]}</p>
+              )}
             </div>
 
             <button
