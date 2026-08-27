@@ -1,20 +1,12 @@
 /**
- * Product images live in a public storage bucket and are served straight from
- * the storage CDN so they work on any host (Cloudflare, Lovable, etc.) with no
- * server-side credentials involved.
+ * Product images live in a private storage bucket and are served through a
+ * cached public proxy route so they stay crawlable and never expire.
  */
-const SUPABASE_URL =
-  (import.meta.env['VITE_SUPABASE_URL'] as string | undefined) ??
-  "https://drkceyolgwokwljfawbo.supabase.co";
-
 export function productImageUrl(path?: string | null): string {
   if (!path) return "";
   if (/^https?:\/\//.test(path)) return path;
   const clean = path.replace(/^\/+/, "");
-  return `${SUPABASE_URL}/storage/v1/object/public/product-images/${clean
-    .split("/")
-    .map(encodeURIComponent)
-    .join("/")}`;
+  return `/api/public/product-image/${clean.split("/").map(encodeURIComponent).join("/")}`;
 }
 
 export const PLACEHOLDER_IMAGE =
