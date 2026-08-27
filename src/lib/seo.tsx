@@ -11,6 +11,8 @@ type MetaArgs = {
 /** Build head() meta + canonical link for a route. */
 export function seo({ title, description, path, image, type = "website" }: MetaArgs) {
   const canonical = `${SITE.url}${path === "/" ? "" : path}`;
+  // Default social preview image for every route (absolute URL required by crawlers).
+  const ogImage = image ?? `${SITE.url}/og-image.png`;
   const meta: Array<Record<string, string>> = [
     { title },
     { name: "description", content: description },
@@ -22,11 +24,11 @@ export function seo({ title, description, path, image, type = "website" }: MetaA
     { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:title", content: title },
     { name: "twitter:description", content: description },
+    { property: "og:image", content: ogImage },
+    { property: "og:image:width", content: "1200" },
+    { property: "og:image:height", content: "630" },
+    { name: "twitter:image", content: ogImage },
   ];
-  if (image) {
-    meta.push({ property: "og:image", content: image });
-    meta.push({ name: "twitter:image", content: image });
-  }
   return {
     meta,
     links: [{ rel: "canonical", href: canonical }],
