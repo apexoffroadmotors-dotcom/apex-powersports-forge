@@ -322,7 +322,7 @@ function Home() {
                     "{r.body}"
                   </blockquote>
                   <figcaption className="micro-label mt-6 text-muted-foreground">
-                    {r.author_name} · {r.location ?? "Verified buyer"}
+                    {r.author_name} · Verified buyer
                   </figcaption>
                 </figure>
               </Reveal>
