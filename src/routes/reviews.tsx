@@ -106,7 +106,7 @@ function ReviewsPage() {
               <button
                 key={d.star}
                 type="button"
-                onClick={() => setFilter(filter === d.star ? null : d.star)}
+                onClick={() => { setVisible(18); setFilter(filter === d.star ? null : d.star); }}
                 className="flex items-center gap-3 text-left"
                 aria-pressed={filter === d.star}
               >
@@ -125,7 +125,7 @@ function ReviewsPage() {
             {filter && (
               <button
                 type="button"
-                onClick={() => setFilter(null)}
+                onClick={() => { setVisible(18); setFilter(null); }}
                 className="micro-label mt-1 self-start text-primary underline underline-offset-4"
               >
                 Clear filter
