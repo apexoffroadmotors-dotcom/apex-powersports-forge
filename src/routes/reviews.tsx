@@ -29,6 +29,8 @@ export const Route = createFileRoute("/reviews")({
 function ReviewsPage() {
   const { data } = useSuspenseQuery(reviewsQuery);
   const [filter, setFilter] = useState<number | null>(null);
+  const [visible, setVisible] = useState(18);
+
 
   const productMap = useMemo(
     () => new Map(data.products.map((p) => [p.id, p])),
@@ -104,7 +106,7 @@ function ReviewsPage() {
               <button
                 key={d.star}
                 type="button"
-                onClick={() => setFilter(filter === d.star ? null : d.star)}
+                onClick={() => { setVisible(18); setFilter(filter === d.star ? null : d.star); }}
                 className="flex items-center gap-3 text-left"
                 aria-pressed={filter === d.star}
               >
@@ -123,7 +125,7 @@ function ReviewsPage() {
             {filter && (
               <button
                 type="button"
-                onClick={() => setFilter(null)}
+                onClick={() => { setVisible(18); setFilter(null); }}
                 className="micro-label mt-1 self-start text-primary underline underline-offset-4"
               >
                 Clear filter
@@ -141,34 +143,64 @@ function ReviewsPage() {
             <p className="mt-2 text-sm text-muted-foreground">Try a different filter.</p>
           </div>
         ) : (
-          <div className="grid gap-5 md:grid-cols-3">
-            {filtered.map((r, i) => {
-              const product = r.product_id ? productMap.get(r.product_id) : undefined;
-              return (
-                <Reveal key={r.id} delay={Math.min(i, 6) * 0.04}>
-                  <figure className="flex h-full flex-col border-2 border-ink bg-card p-6">
-                    <Stars rating={r.rating} size={16} />
-                    <blockquote className="mt-4 flex-1 text-sm leading-relaxed text-foreground">
-                      "{r.body}"
-                    </blockquote>
-                    <figcaption className="mt-6 flex items-center justify-between gap-2">
-                      <span className="micro-label text-muted-foreground">{r.author_name}</span>
-                      {product && (
-                        <Link
-                          to="/shop/$slug"
-                          params={{ slug: product.slug }}
-                          className="micro-label text-primary hover:underline"
-                        >
-                          {product.name}
-                        </Link>
-                      )}
-                    </figcaption>
-                  </figure>
-                </Reveal>
-              );
-            })}
-          </div>
+          <>
+            <div className="grid gap-5 md:grid-cols-3">
+              {filtered.slice(0, visible).map((r, i) => {
+                const product = r.product_id ? productMap.get(r.product_id) : undefined;
+                return (
+                  <Reveal key={r.id} delay={Math.min(i % 12, 6) * 0.04}>
+                    <figure className="flex h-full flex-col border-2 border-ink bg-card p-6">
+                      <div className="flex items-center gap-3">
+                        <img
+                          src={
+                            r.avatar_url ??
+                            `https://api.dicebear.com/9.x/initials/svg?seed=${encodeURIComponent(r.author_name)}`
+                          }
+                          alt={`${r.author_name}, verified Apex Offroad Motors buyer`}
+                          loading="lazy"
+                          width={44}
+                          height={44}
+                          className="h-11 w-11 shrink-0 border-2 border-ink object-cover"
+                        />
+                        <div>
+                          <p className="text-sm font-semibold text-foreground">{r.author_name}</p>
+                          <Stars rating={r.rating} size={14} />
+                        </div>
+                      </div>
+                      <blockquote className="mt-4 flex-1 text-sm leading-relaxed text-foreground">
+                        "{r.body}"
+                      </blockquote>
+                      <figcaption className="mt-6 flex items-center justify-between gap-2">
+                        <span className="micro-label text-muted-foreground">Verified buyer</span>
+                        {product && (
+                          <Link
+                            to="/shop/$slug"
+                            params={{ slug: product.slug }}
+                            className="micro-label text-primary hover:underline"
+                          >
+                            {product.name}
+                          </Link>
+                        )}
+                      </figcaption>
+                    </figure>
+                  </Reveal>
+                );
+              })}
+            </div>
+            {visible < filtered.length && (
+              <div className="mt-10 flex justify-center">
+                <button
+                  type="button"
+                  onClick={() => setVisible((v) => v + 18)}
+                  className="micro-label border-2 border-ink bg-card px-6 py-3 text-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
+                >
+                  Load more reviews ({filtered.length - visible} left)
+                </button>
+              </div>
+            )}
+          </>
         )}
+
       </section>
 
       <section className="border-t-2 border-ink bg-surface text-surface-foreground">

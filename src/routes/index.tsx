@@ -317,15 +317,32 @@ function Home() {
             {reviews.map((r, i) => (
               <Reveal key={r.id} delay={i * 0.06}>
                 <figure className="flex h-full flex-col border-2 border-ink bg-card p-6">
-                  <Stars rating={r.rating} size={16} />
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={
+                        r.avatar_url ??
+                        `https://api.dicebear.com/9.x/initials/svg?seed=${encodeURIComponent(r.author_name)}`
+                      }
+                      alt={`${r.author_name}, verified Apex Offroad Motors buyer`}
+                      loading="lazy"
+                      width={44}
+                      height={44}
+                      className="h-11 w-11 shrink-0 border-2 border-ink object-cover"
+                    />
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">{r.author_name}</p>
+                      <Stars rating={r.rating} size={14} />
+                    </div>
+                  </div>
                   <blockquote className="mt-4 flex-1 text-sm leading-relaxed text-foreground">
                     "{r.body}"
                   </blockquote>
                   <figcaption className="micro-label mt-6 text-muted-foreground">
-                    {r.author_name} · Verified buyer
+                    Verified buyer
                   </figcaption>
                 </figure>
               </Reveal>
+
             ))}
             {reviews.length === 0 && (
               <p className="text-sm text-muted-foreground">Reviews coming soon.</p>
