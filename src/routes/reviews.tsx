@@ -29,6 +29,8 @@ export const Route = createFileRoute("/reviews")({
 function ReviewsPage() {
   const { data } = useSuspenseQuery(reviewsQuery);
   const [filter, setFilter] = useState<number | null>(null);
+  const [visible, setVisible] = useState(18);
+
 
   const productMap = useMemo(
     () => new Map(data.products.map((p) => [p.id, p])),
