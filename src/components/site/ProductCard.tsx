@@ -1,12 +1,13 @@
 import { Link } from "@tanstack/react-router";
-import { Video } from "lucide-react";
+import { PlayCircle, Video } from "lucide-react";
 import type { Product } from "@/lib/catalog.functions";
 import { CONDITION_LABELS, TYPE_LABELS, formatPrice } from "@/lib/site";
-import { PLACEHOLDER_IMAGE, productImageUrl } from "@/lib/images";
+import { PLACEHOLDER_IMAGE, productImageUrl, productVideoUrl } from "@/lib/images";
 
 export function ProductCard({ product }: { product: Product }) {
-  const img = productImageUrl(product.images?.[0]) || PLACEHOLDER_IMAGE;
+  const hasImage = (product.images?.length ?? 0) > 0;
   const hasVideo = (product.videos?.length ?? 0) > 0;
+  const img = productImageUrl(product.images?.[0]) || PLACEHOLDER_IMAGE;
   return (
     <article className="lift group flex h-full flex-col border-2 border-ink bg-card">
       <Link
@@ -14,13 +15,29 @@ export function ProductCard({ product }: { product: Product }) {
         params={{ slug: product.slug }}
         className="relative block overflow-hidden border-b-2 border-ink"
       >
-        <img
-          src={img}
-          alt={`${product.name} — ${TYPE_LABELS[product.type] ?? "ATV"} for sale`}
-          loading="lazy"
-          className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-105"
-        />
-        {hasVideo && (
+        {!hasImage && hasVideo ? (
+          <>
+            <video
+              src={productVideoUrl(product.videos![0])}
+              preload="metadata"
+              muted
+              className="aspect-[4/3] w-full bg-ink object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+            <PlayCircle
+              size={36}
+              className="absolute inset-0 m-auto text-white drop-shadow"
+              aria-hidden
+            />
+          </>
+        ) : (
+          <img
+            src={img}
+            alt={`${product.name} — ${TYPE_LABELS[product.type] ?? "ATV"} for sale`}
+            loading="lazy"
+            className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        )}
+        {hasImage && hasVideo && (
           <span className="micro-label absolute bottom-2 right-2 flex items-center gap-1 border-2 border-ink bg-card px-2 py-1 text-foreground">
             <Video size={12} /> Video
           </span>
