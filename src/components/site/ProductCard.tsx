@@ -1,16 +1,18 @@
 import { Link } from "@tanstack/react-router";
+import { Video } from "lucide-react";
 import type { Product } from "@/lib/catalog.functions";
 import { CONDITION_LABELS, TYPE_LABELS, formatPrice } from "@/lib/site";
 import { PLACEHOLDER_IMAGE, productImageUrl } from "@/lib/images";
 
 export function ProductCard({ product }: { product: Product }) {
   const img = productImageUrl(product.images?.[0]) || PLACEHOLDER_IMAGE;
+  const hasVideo = (product.videos?.length ?? 0) > 0;
   return (
     <article className="lift group flex h-full flex-col border-2 border-ink bg-card">
       <Link
         to="/shop/$slug"
         params={{ slug: product.slug }}
-        className="block overflow-hidden border-b-2 border-ink"
+        className="relative block overflow-hidden border-b-2 border-ink"
       >
         <img
           src={img}
@@ -18,6 +20,11 @@ export function ProductCard({ product }: { product: Product }) {
           loading="lazy"
           className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
+        {hasVideo && (
+          <span className="micro-label absolute bottom-2 right-2 flex items-center gap-1 border-2 border-ink bg-card px-2 py-1 text-foreground">
+            <Video size={12} /> Video
+          </span>
+        )}
       </Link>
       <div className="flex flex-1 flex-col p-4">
         <div className="flex items-center justify-between gap-2">

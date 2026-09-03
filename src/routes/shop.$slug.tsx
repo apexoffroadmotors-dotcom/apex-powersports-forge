@@ -2,13 +2,13 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Check, ShoppingCart, Truck } from "lucide-react";
+import { Check, PlayCircle, ShoppingCart, Truck } from "lucide-react";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { ProductCard } from "@/components/site/ProductCard";
 import { Stars } from "@/components/site/Stars";
 import { getProductBySlug } from "@/lib/catalog.functions";
 import { JsonLd, seo } from "@/lib/seo";
-import { PLACEHOLDER_IMAGE, productImageUrl } from "@/lib/images";
+import { PLACEHOLDER_IMAGE, productImageUrl, productVideoUrl } from "@/lib/images";
 import { CONDITION_LABELS, SITE, STATUS_LABELS, TYPE_LABELS, formatPrice, whatsappHref } from "@/lib/site";
 import { useCart } from "@/context/CartContext";
 
@@ -62,8 +62,16 @@ function ProductDetail() {
   const { add } = useCart();
   const [active, setActive] = useState(0);
 
-  const images = (product.images ?? []).map((i) => productImageUrl(i)).filter(Boolean);
-  const hero = images[active] || PLACEHOLDER_IMAGE;
+  type MediaItem = { type: "image" | "video"; url: string };
+  const media: MediaItem[] = [
+    ...(product.images ?? [])
+      .map((i) => ({ type: "image" as const, url: productImageUrl(i) }))
+      .filter((m) => m.url),
+    ...(product.videos ?? [])
+      .map((v) => ({ type: "video" as const, url: productVideoUrl(v) }))
+      .filter((m) => m.url),
+  ];
+  const activeMedia = media[active];
   const avg =
     data.reviews.length > 0
       ? data.reviews.reduce((s, r) => s + r.rating, 0) / data.reviews.length
@@ -138,22 +146,42 @@ function ProductDetail() {
 
       <section className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-2">
         <div>
-          <img
-            src={hero}
-            alt={`${product.name} — ${TYPE_LABELS[product.type] ?? "ATV"} for sale`}
-            className="w-full border-2 border-ink object-cover"
-          />
-          {images.length > 1 && (
+          {activeMedia?.type === "video" ? (
+            <video
+              key={activeMedia.url}
+              src={activeMedia.url}
+              controls
+              className="w-full border-2 border-ink bg-ink object-cover"
+            />
+          ) : (
+            <img
+              src={activeMedia?.url || PLACEHOLDER_IMAGE}
+              alt={`${product.name} — ${TYPE_LABELS[product.type] ?? "ATV"} for sale`}
+              className="w-full border-2 border-ink object-cover"
+            />
+          )}
+          {media.length > 1 && (
             <div className="mt-3 flex flex-wrap gap-3">
-              {images.map((img, i) => (
+              {media.map((m, i) => (
                 <button
-                  key={img}
+                  key={m.url}
                   type="button"
                   onClick={() => setActive(i)}
-                  className={`h-20 w-24 border-2 ${i === active ? "border-accent" : "border-ink"}`}
-                  aria-label={`View image ${i + 1}`}
+                  className={`relative h-20 w-24 border-2 ${i === active ? "border-accent" : "border-ink"}`}
+                  aria-label={`View ${m.type} ${i + 1}`}
                 >
-                  <img src={img} alt="" className="h-full w-full object-cover" loading="lazy" />
+                  {m.type === "video" ? (
+                    <>
+                      <video src={m.url} preload="metadata" className="h-full w-full object-cover" />
+                      <PlayCircle
+                        size={22}
+                        className="absolute inset-0 m-auto text-white drop-shadow"
+                        aria-hidden
+                      />
+                    </>
+                  ) : (
+                    <img src={m.url} alt="" className="h-full w-full object-cover" loading="lazy" />
+                  )}
                 </button>
               ))}
             </div>

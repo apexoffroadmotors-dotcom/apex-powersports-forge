@@ -9,6 +9,17 @@ export function productImageUrl(path?: string | null): string {
   return `/api/public/product-image/${clean.split("/").map(encodeURIComponent).join("/")}`;
 }
 
+/**
+ * Product videos live in a private storage bucket and are served through a
+ * range-forwarding proxy route so browsers can seek/scrub playback.
+ */
+export function productVideoUrl(path?: string | null): string {
+  if (!path) return "";
+  if (/^https?:\/\//.test(path)) return path;
+  const clean = path.replace(/^\/+/, "");
+  return `/api/public/product-video/${clean.split("/").map(encodeURIComponent).join("/")}`;
+}
+
 export const PLACEHOLDER_IMAGE =
   "data:image/svg+xml;utf8," +
   encodeURIComponent(

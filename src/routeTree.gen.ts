@@ -32,6 +32,7 @@ import { Route as AdminProductsIndexRouteImport } from './routes/admin.products.
 import { Route as AdminProductsIdRouteImport } from './routes/admin.products.$id'
 import { Route as AdminProductsNewRouteImport } from './routes/admin.products.new'
 import { Route as ApiPublicProductImageSplatRouteImport } from './routes/api/public/product-image.$'
+import { Route as ApiPublicProductVideoSplatRouteImport } from './routes/api/public/product-video.$'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -149,6 +150,12 @@ const ApiPublicProductImageSplatRoute =
     path: '/api/public/product-image/$',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicProductVideoSplatRoute =
+  ApiPublicProductVideoSplatRouteImport.update({
+    id: '/api/public/product-video/$',
+    path: '/api/public/product-video/$',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -174,6 +181,7 @@ export interface FileRoutesByFullPath {
   '/admin/products/new': typeof AdminProductsNewRoute
   '/admin/products/': typeof AdminProductsIndexRoute
   '/api/public/product-image/$': typeof ApiPublicProductImageSplatRoute
+  '/api/public/product-video/$': typeof ApiPublicProductVideoSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -198,6 +206,7 @@ export interface FileRoutesByTo {
   '/admin/products/new': typeof AdminProductsNewRoute
   '/admin/products': typeof AdminProductsIndexRoute
   '/api/public/product-image/$': typeof ApiPublicProductImageSplatRoute
+  '/api/public/product-video/$': typeof ApiPublicProductVideoSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -224,6 +233,7 @@ export interface FileRoutesById {
   '/admin/products/new': typeof AdminProductsNewRoute
   '/admin/products/': typeof AdminProductsIndexRoute
   '/api/public/product-image/$': typeof ApiPublicProductImageSplatRoute
+  '/api/public/product-video/$': typeof ApiPublicProductVideoSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -251,6 +261,7 @@ export interface FileRouteTypes {
     | '/admin/products/new'
     | '/admin/products/'
     | '/api/public/product-image/$'
+    | '/api/public/product-video/$'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -275,6 +286,7 @@ export interface FileRouteTypes {
     | '/admin/products/new'
     | '/admin/products'
     | '/api/public/product-image/$'
+    | '/api/public/product-video/$'
   id:
     | '__root__'
     | '/'
@@ -300,6 +312,7 @@ export interface FileRouteTypes {
     | '/admin/products/new'
     | '/admin/products/'
     | '/api/public/product-image/$'
+    | '/api/public/product-video/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -319,6 +332,7 @@ export interface RootRouteChildren {
   CheckoutIndexRoute: typeof CheckoutIndexRoute
   ShopIndexRoute: typeof ShopIndexRoute
   ApiPublicProductImageSplatRoute: typeof ApiPublicProductImageSplatRoute
+  ApiPublicProductVideoSplatRoute: typeof ApiPublicProductVideoSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -484,6 +498,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicProductImageSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/product-video/$': {
+      id: '/api/public/product-video/$'
+      path: '/api/public/product-video/$'
+      fullPath: '/api/public/product-video/$'
+      preLoaderRoute: typeof ApiPublicProductVideoSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -526,6 +547,7 @@ const rootRouteChildren: RootRouteChildren = {
   CheckoutIndexRoute: CheckoutIndexRoute,
   ShopIndexRoute: ShopIndexRoute,
   ApiPublicProductImageSplatRoute: ApiPublicProductImageSplatRoute,
+  ApiPublicProductVideoSplatRoute: ApiPublicProductVideoSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

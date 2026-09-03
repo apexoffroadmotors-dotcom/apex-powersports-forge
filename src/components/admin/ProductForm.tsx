@@ -2,10 +2,10 @@ import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { z } from "zod";
-import { ImagePlus, Loader2, Trash2 } from "lucide-react";
+import { ImagePlus, Loader2, Trash2, VideoIcon } from "lucide-react";
 import type { Json } from "@/integrations/supabase/types";
 import { supabase } from "@/integrations/supabase/client";
-import { productImageUrl, PLACEHOLDER_IMAGE } from "@/lib/images";
+import { productImageUrl, productVideoUrl, PLACEHOLDER_IMAGE } from "@/lib/images";
 import { CONDITION_LABELS, STATUS_LABELS, TYPE_LABELS } from "@/lib/site";
 import type { Database } from "@/integrations/supabase/types";
 
@@ -49,6 +49,8 @@ export function ProductForm({ product }: { product?: Product }) {
   const [uploading, setUploading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [images, setImages] = useState<string[]>(product?.images ?? []);
+  const [videos, setVideos] = useState<string[]>(product?.videos ?? []);
+  const [uploadingVideo, setUploadingVideo] = useState(false);
   const [form, setForm] = useState({
     name: product?.name ?? "",
     slug: product?.slug ?? "",
@@ -97,6 +99,39 @@ export function ProductForm({ product }: { product?: Product }) {
     }
   }
 
+  const MAX_VIDEO_BYTES = 200 * 1024 * 1024;
+
+  async function handleVideoUpload(files: FileList | null) {
+    if (!files?.length) return;
+    setUploadingVideo(true);
+    try {
+      const uploaded: string[] = [];
+      for (const file of Array.from(files).slice(0, 4)) {
+        if (!file.type.startsWith("video/")) {
+          toast.error(`${file.name} isn't a video file`);
+          continue;
+        }
+        if (file.size > MAX_VIDEO_BYTES) {
+          toast.error(`${file.name} is over the 200MB limit`);
+          continue;
+        }
+        const ext = file.name.split(".").pop()?.toLowerCase() ?? "mp4";
+        const path = `products/${crypto.randomUUID()}.${ext}`;
+        const { error } = await supabase.storage
+          .from("product-videos")
+          .upload(path, file, { contentType: file.type, upsert: false });
+        if (error) {
+          toast.error(`Upload failed: ${error.message}`);
+          continue;
+        }
+        uploaded.push(path);
+      }
+      if (uploaded.length) setVideos((prev) => [...prev, ...uploaded]);
+    } finally {
+      setUploadingVideo(false);
+    }
+  }
+
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     let specs: Record<string, unknown> = {};
@@ -140,6 +175,7 @@ export function ProductForm({ product }: { product?: Product }) {
         is_featured: form.is_featured,
         specs: specs as Json,
         images,
+        videos,
       };
       const { error } = product
         ? await supabase.from("products").update(payload).eq("id", product.id)
@@ -311,6 +347,42 @@ export function ProductForm({ product }: { product?: Product }) {
                 multiple
                 className="sr-only"
                 onChange={(e) => handleUpload(e.target.files)}
+              />
+            </label>
+          </div>
+        </section>
+
+        <section className="border-2 border-ink bg-card p-5">
+          <h2 className="font-display text-lg text-foreground">Videos</h2>
+          <p className="mt-1 text-xs text-muted-foreground">Up to 200MB each. First image still leads the gallery.</p>
+          <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {videos.map((path) => (
+              <div key={path} className="relative border-2 border-ink">
+                <video
+                  src={productVideoUrl(path)}
+                  preload="metadata"
+                  controls
+                  className="aspect-[4/3] w-full bg-ink object-cover"
+                />
+                <button
+                  type="button"
+                  aria-label="Remove video"
+                  onClick={() => setVideos((prev) => prev.filter((p) => p !== path))}
+                  className="absolute right-1 top-1 border-2 border-ink bg-destructive p-1 text-destructive-foreground"
+                >
+                  <Trash2 size={14} />
+                </button>
+              </div>
+            ))}
+            <label className="micro-label flex aspect-[4/3] cursor-pointer flex-col items-center justify-center gap-2 border-2 border-dashed border-ink text-muted-foreground">
+              {uploadingVideo ? <Loader2 className="animate-spin" size={18} /> : <VideoIcon size={18} />}
+              {uploadingVideo ? "Uploading" : "Add video"}
+              <input
+                type="file"
+                accept="video/*"
+                multiple
+                className="sr-only"
+                onChange={(e) => handleVideoUpload(e.target.files)}
               />
             </label>
           </div>
