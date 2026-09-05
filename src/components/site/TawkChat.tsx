@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 export function TawkChat() {
   useEffect(() => {
-    if (typeof window === "undefined" || (window as unknown as Record<string, unknown>).Tawk_API) {
+    if (typeof window === "undefined" || (window as unknown as Record<string, unknown>)['Tawk_API']) {
       return;
     }
 
