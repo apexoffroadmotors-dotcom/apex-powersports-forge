@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 import { Toaster } from "@/components/ui/sonner";
+import { TawkChat } from "@/components/site/TawkChat";
 import { CartProvider } from "@/context/CartContext";
 import { SITE } from "@/lib/site";
 
