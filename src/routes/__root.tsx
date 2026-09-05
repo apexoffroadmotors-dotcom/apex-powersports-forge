@@ -113,10 +113,7 @@ function RootShell({ children }: { children: ReactNode }) {
       <body>
         {children}
         <Scripts />
-        {/*
-          Live chat: paste your Tawk.to (or similar) embed snippet here.
-          <script async src="https://embed.tawk.to/<property-id>/<widget-id>" />
-        */}
+        <TawkChat />
       </body>
     </html>
   );
