@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 import { Toaster } from "@/components/ui/sonner";
+import { TawkChat } from "@/components/site/TawkChat";
 import { CartProvider } from "@/context/CartContext";
 import { SITE } from "@/lib/site";
 
@@ -112,10 +113,7 @@ function RootShell({ children }: { children: ReactNode }) {
       <body>
         {children}
         <Scripts />
-        {/*
-          Live chat: paste your Tawk.to (or similar) embed snippet here.
-          <script async src="https://embed.tawk.to/<property-id>/<widget-id>" />
-        */}
+        <TawkChat />
       </body>
     </html>
   );
